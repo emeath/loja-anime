@@ -12,4 +12,6 @@ public interface GeneroRepository extends JpaRepository<GeneroModel, Long> {
     @Query("SELECT g FROM GeneroModel g WHERE g.nome = :nomeGenero")
     public Optional<List<GeneroModel>> nomeDoGeneroExiste(String nomeGenero);
 
+    @Query("SELECT g FROM GeneroModel g WHERE g.id = :idGenero")
+    Optional<GeneroModel> buscaPorId(Long idGenero);
 }

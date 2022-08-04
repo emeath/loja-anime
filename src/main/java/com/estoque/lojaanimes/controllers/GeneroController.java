@@ -7,12 +7,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/genero")
@@ -29,6 +27,15 @@ public class GeneroController {
         var generoModel = new GeneroModel();
         BeanUtils.copyProperties(generoDTO, generoModel);
         return ResponseEntity.status(HttpStatus.OK).body(generoService.save(generoModel));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getAllGenerosById(@PathVariable(value="id") Long id) {
+        Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
+        if (generoModelOptional.isEmpty()) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero de id: " + id + " não encontrado.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(generoModelOptional.get());
     }
 
 }

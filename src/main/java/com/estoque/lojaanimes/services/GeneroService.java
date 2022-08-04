@@ -26,4 +26,8 @@ public class GeneroService {
     public GeneroModel save(GeneroModel generoModel) {
         return generoRepository.save(generoModel);
     }
+
+    public Optional<GeneroModel> buscaPorId(Long id) {
+        return generoRepository.buscaPorId(id);
+    }
 }
