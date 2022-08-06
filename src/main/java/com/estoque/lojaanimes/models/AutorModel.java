@@ -1,5 +1,7 @@
 package com.estoque.lojaanimes.models;
 
+import com.estoque.lojaanimes.services.AnimeService;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -18,8 +20,8 @@ public class AutorModel implements Serializable {
     private String nome;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String experiencia;
-    @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AnimeModel> animes;
+    /*@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<AnimeModel> animes;*/
 
     public AutorModel() {
     }
@@ -48,13 +50,9 @@ public class AutorModel implements Serializable {
         this.experiencia = experiencia;
     }
 
-    public List<AnimeModel> getAnimes() {
-        return animes;
-    }
+    @OneToMany(mappedBy = "autor")
+    private List<AnimeModel> animes;
 
-    public void setAnimes(List<AnimeModel> animes) {
-        this.animes = animes;
-    }
 
     @Override
     public String toString() {
@@ -62,7 +60,6 @@ public class AutorModel implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", experiencia='" + experiencia + '\'' +
-                ", animes=" + animes +
                 '}';
     }
 }

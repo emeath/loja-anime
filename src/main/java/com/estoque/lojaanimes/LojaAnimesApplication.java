@@ -14,30 +14,27 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.List;
 import java.util.Set;
 
-@EnableJpaRepositories
+//@EnableJpaRepositories
 @SpringBootApplication
-public class LojaAnimesApplication implements CommandLineRunner {
+public class LojaAnimesApplication {
 
 
-
+/*
 	private final GeneroService generoService;
 	private final AutorService autorService;
 	public LojaAnimesApplication(GeneroService generoService, AutorService autorService) {
 		this.generoService = generoService;
 		this.autorService = autorService;
 	}
-
+*/
 	public static void main(String[] args) {
 
 		SpringApplication.run(LojaAnimesApplication.class, args);
 	}
-
-
+/*
 	@Override
 	public void run(String... args) throws Exception {
 
-
-		/*
 		System.out.println("Hello World!!!!");
 		System.out.println("Hello World!!!!");
 		System.out.println("Hello World!!!!");
@@ -75,7 +72,7 @@ public class LojaAnimesApplication implements CommandLineRunner {
 
 		Set<AnimeModel> am = generoService.animesPorGenero("Açãoaa");
 		am.forEach(System.out::println);
-		*/
+
 
 		//RETRIEVE
 		List<AutorModel> autores = autorService.buscarTodos();
@@ -108,5 +105,5 @@ public class LojaAnimesApplication implements CommandLineRunner {
 
 		System.out.println(autorService.findById(11L));
 
-	}
+	}*/
 }
