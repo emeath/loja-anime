@@ -21,14 +21,14 @@ public class AnimeModel implements Serializable {
     @Column(nullable = false)
     private LocalDate dtCriacao;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name="animes__generos",
             joinColumns = @JoinColumn(name = "id_animes"),
             inverseJoinColumns = @JoinColumn(name = "generos_id"))
     private Set<GeneroModel> animeGeneros;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_autor", nullable = false)
     private AutorModel autor;
 

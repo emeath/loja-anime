@@ -3,8 +3,10 @@ package com.estoque.lojaanimes.controllers;
 import com.estoque.lojaanimes.DTO.AnimeDTO;
 import com.estoque.lojaanimes.DTO.GeneroDTO;
 import com.estoque.lojaanimes.models.AnimeModel;
+import com.estoque.lojaanimes.models.AutorModel;
 import com.estoque.lojaanimes.models.GeneroModel;
 import com.estoque.lojaanimes.services.AnimeService;
+import com.estoque.lojaanimes.services.AutorService;
 import com.estoque.lojaanimes.services.GeneroService;
 import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
@@ -14,8 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/animes")
@@ -23,6 +24,10 @@ public class AnimeController {
 
     @Autowired
     AnimeService animeService;
+    @Autowired
+    AutorService autorService;
+    @Autowired
+    GeneroService generoService;
 
     @PostMapping
     public ResponseEntity<Object> saveAnime(@RequestBody @Valid AnimeDTO animeDTO) {
@@ -31,6 +36,25 @@ public class AnimeController {
         }
         var animeModel = new AnimeModel();
         BeanUtils.copyProperties(animeDTO, animeModel);
+
+        Optional<AutorModel> autorModelOptional = autorService.findById(animeDTO.getIdAutor());
+        if(autorModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id do autor inválido!");
+        }
+        animeModel.setAutor(autorModelOptional.get());
+
+
+        Set<GeneroModel> generos = new HashSet<>();
+
+        for (Long idGenero : animeDTO.getIdGenerosAnime()) {
+            Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(idGenero);
+            if(generoModelOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id Genero: " + idGenero + " inválido. Requisição rejeitada.");
+            }
+            generos.add(generoModelOptional.get());
+        }
+        animeModel.setAnimeGeneros(generos);
+
         return ResponseEntity.status(HttpStatus.OK).body(animeService.save(animeModel));
     }
 
