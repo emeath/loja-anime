@@ -1,14 +1,12 @@
 package com.estoque.lojaanimes.controllers;
 
 import com.estoque.lojaanimes.DTO.AnimeDTO;
-import com.estoque.lojaanimes.DTO.GeneroDTO;
 import com.estoque.lojaanimes.models.AnimeModel;
 import com.estoque.lojaanimes.models.AutorModel;
 import com.estoque.lojaanimes.models.GeneroModel;
 import com.estoque.lojaanimes.services.AnimeService;
 import com.estoque.lojaanimes.services.AutorService;
 import com.estoque.lojaanimes.services.GeneroService;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +52,7 @@ public class AnimeController {
         }
         animeModel.setAnimeGeneros(generos);
 
-        return ResponseEntity.status(HttpStatus.OK).body(animeService.save(animeModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(animeService.save(animeModel));
     }
 
     @GetMapping("/{id}")
