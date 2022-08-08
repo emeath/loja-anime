@@ -20,8 +20,8 @@ public class AutorModel implements Serializable {
     private String nome;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String experiencia;
-    /*@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AnimeModel> animes;*/
+    @OneToMany(mappedBy = "autor")
+    private List<AnimeModel> animes;
 
     public AutorModel() {
     }
@@ -50,16 +50,13 @@ public class AutorModel implements Serializable {
         this.experiencia = experiencia;
     }
 
-    @OneToMany(mappedBy = "autor")
-    private List<AnimeModel> animes;
-
-
     @Override
     public String toString() {
         return "AutorModel{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", experiencia='" + experiencia + '\'' +
+                ", animes=" + animes +
                 '}';
     }
 }
