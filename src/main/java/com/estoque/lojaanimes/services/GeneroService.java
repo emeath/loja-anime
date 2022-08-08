@@ -18,10 +18,6 @@ public class GeneroService {
     @Autowired
     GeneroRepository generoRepository;
 
-    public Set<AnimeModel> animesPorGenero(String nomeGenero){
-        return generoRepository.animesPorGenero(nomeGenero);
-    }
-
     public boolean nomeDoGeneroExiste(String nomeGenero) {
         Optional<List<GeneroModel>> generoModelOptional = generoRepository.nomeDoGeneroExiste(nomeGenero);
         if(generoModelOptional.get().isEmpty())
@@ -45,5 +41,13 @@ public class GeneroService {
     @Transactional
     public void deletarPorId(Long id) {
         generoRepository.deletarPorID(id);
+    }
+
+    public List<GeneroModel> findByAutorId(Long id) {
+        return generoRepository.findByAutorId(id);
+    }
+
+    public Optional<GeneroModel> findByNome(String nome) {
+        return generoRepository.findByNome(nome);
     }
 }

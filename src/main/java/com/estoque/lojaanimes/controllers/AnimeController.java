@@ -69,6 +69,31 @@ public class AnimeController {
         return ResponseEntity.status(HttpStatus.OK).body(animeService.findAll());
     }
 
+    @GetMapping("/autores/{id}")
+    public ResponseEntity<Object> getAllAnimesByAutorId(@PathVariable(value = "id") Long id) {
+        // Autor existe?
+        Optional<AutorModel> autorModelOptional = autorService.findById(id);
+        if (autorModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não existe!");
+        }
+        AutorModel autorModel = new AutorModel();
+        autorModel.setId(autorModelOptional.get().getId());
+
+        List<AnimeModel> animes = animeService.findAnimesPorIdAutor(autorModel.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(animes);
+
+    }
+
+    @GetMapping("/generos/{nomeGenero}")
+    public ResponseEntity<Object> getAllAnimesByGeneroNome(@PathVariable(value = "nomeGenero") String nomeDoGenero) {
+        Optional<GeneroModel> generoModelOptional = generoService.findByNome(nomeDoGenero);
+        if(generoModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID não encontrado.");
+        }
+         Set<AnimeModel> animes = animeService.animesPorGenero(generoModelOptional.get().getNome());
+        return ResponseEntity.status(HttpStatus.OK).body(animes);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable(value="id") Long id) {
         Optional<AnimeModel> animeModelOptional = animeService.findById(id);

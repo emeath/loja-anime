@@ -27,9 +27,11 @@ public interface GeneroRepository extends JpaRepository<GeneroModel, Long> {
     @Modifying
     @Query("DELETE FROM GeneroModel g WHERE g.id = :idGenero")
     public void deletarPorID(Long idGenero);
+    
+    @Query("SELECT g FROM GeneroModel g JOIN g.generoAnimes genani JOIN genani.autor a WHERE a.id = :id")
+    public List<GeneroModel> findByAutorId(Long id);
 
-    @Query("SELECT genani FROM GeneroModel g JOIN g.generoAnimes genani WHERE g.nome = :nomeGenero")
-    public Set<AnimeModel> animesPorGenero(String nomeGenero);
+    Optional<GeneroModel> findByNome(String nome);
 
     // save -> derived query
 

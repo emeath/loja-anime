@@ -1,7 +1,9 @@
 package com.estoque.lojaanimes.controllers;
 
 import com.estoque.lojaanimes.DTO.GeneroDTO;
+import com.estoque.lojaanimes.models.AutorModel;
 import com.estoque.lojaanimes.models.GeneroModel;
+import com.estoque.lojaanimes.services.AutorService;
 import com.estoque.lojaanimes.services.GeneroService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class GeneroController {
 
     @Autowired
     GeneroService generoService;
+    @Autowired
+    AutorService autorService;
 
     @PostMapping
     public ResponseEntity<Object> saveGenero(@RequestBody @Valid GeneroDTO generoDTO) {
@@ -37,6 +41,16 @@ public class GeneroController {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero de id: " + id + " não encontrado.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(generoModelOptional.get());
+    }
+
+    @GetMapping("/autores/{id}")
+    public ResponseEntity<Object> getGenerosByAutorId(@PathVariable(value = "id") Long id) {
+        Optional<AutorModel> autorModelOptional = autorService.findById(id);
+        if (autorModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado Autor de id: " + id);
+        }
+        List<GeneroModel> generos = generoService.findByAutorId(autorModelOptional.get().getId());
+        return ResponseEntity.status(HttpStatus.OK).body(generos);
     }
 
     @GetMapping

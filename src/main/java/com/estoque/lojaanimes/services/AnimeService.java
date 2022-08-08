@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AnimeService {
@@ -35,5 +36,13 @@ public class AnimeService {
     @Transactional
     public void deleteById(Long id) {
         animeRepository.deleteById(id);
+    }
+
+    public List<AnimeModel> findAnimesPorIdAutor(Long id) {
+        return animeRepository.findAnimesPorIdAutor(id);
+    }
+
+    public Set<AnimeModel> animesPorGenero(String nomeGenero) {
+        return animeRepository.animesPorGenero(nomeGenero);
     }
 }
