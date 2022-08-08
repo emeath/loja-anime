@@ -3,15 +3,14 @@ package com.estoque.lojaanimes.DTO;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 public class AutorDTO {
 
     @NotBlank
     private String nome;
-    @NotBlank
+    @NotBlank @NotEmpty
     private String experiencia;
-    @NotEmpty
-    private List<Long> idAnimes;
 
     public String getNome() {
         return nome;
@@ -29,11 +28,4 @@ public class AutorDTO {
         this.experiencia = experiencia;
     }
 
-    public List<Long> getIdAnimes() {
-        return idAnimes;
-    }
-
-    public void setIdAnimes(List<Long> idAnimes) {
-        this.idAnimes = idAnimes;
-    }
 }

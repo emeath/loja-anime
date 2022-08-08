@@ -5,6 +5,7 @@ import com.estoque.lojaanimes.services.AnimeService;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "autores")
@@ -20,8 +21,8 @@ public class AutorModel implements Serializable {
     private String nome;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String experiencia;
-    @OneToMany(mappedBy = "autor")
-    private List<AnimeModel> animes;
+    //@OneToMany(mappedBy = "autor")
+    //private Set<AnimeModel> animes;
 
     public AutorModel() {
     }
@@ -56,7 +57,6 @@ public class AutorModel implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", experiencia='" + experiencia + '\'' +
-                ", animes=" + animes +
                 '}';
     }
 }

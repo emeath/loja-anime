@@ -14,4 +14,6 @@ public interface AutorRepository extends JpaRepository<AutorModel, Long> {
     @Modifying
     @Query("DELETE FROM AutorModel a WHERE a.id = :id")
     void deletarPorId(Long id);
+
+    boolean existsByNome(String nome);
 }

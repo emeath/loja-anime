@@ -42,4 +42,7 @@ public class AutorService {
     }
 
 
+    public boolean existsByNome(String nome) {
+        return autorRepository.existsByNome(nome);
+    }
 }

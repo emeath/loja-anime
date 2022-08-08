@@ -28,7 +28,7 @@ public class AnimeModel implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "generos_id"))
     private Set<GeneroModel> animeGeneros;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_autor", nullable = false)
     private AutorModel autor;
 
