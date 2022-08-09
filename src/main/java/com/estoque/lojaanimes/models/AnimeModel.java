@@ -16,7 +16,7 @@ public class AnimeModel implements Serializable {
     private Long id;
     @Column(nullable = false, unique = true)
     private String nome;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private int qtdTemporadas;
     @Column(nullable = false)
     private LocalDate dtCriacao;
@@ -28,7 +28,7 @@ public class AnimeModel implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "generos_id"))
     private Set<GeneroModel> animeGeneros;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_autor", nullable = false)
     private AutorModel autor;
 
