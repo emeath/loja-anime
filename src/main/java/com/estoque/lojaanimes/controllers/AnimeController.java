@@ -32,7 +32,7 @@ public class AnimeController {
         if (animeService.nomeDoGeneroExiste(animeDTO.getNome())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Anime: " + animeDTO.getNome() + " já cadastrado.");
         }
-        var animeModel = new AnimeModel();
+        AnimeModel animeModel = new AnimeModel();
         BeanUtils.copyProperties(animeDTO, animeModel);
 
         Optional<AutorModel> autorModelOptional = autorService.findById(animeDTO.getIdAutor());

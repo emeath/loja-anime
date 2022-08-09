@@ -42,7 +42,7 @@ public class AutorController {
         if(autorService.existsByNome(autorDTO.getNome().trim())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Autor já cadastrado!");
         }
-        var autorModel = new AutorModel();
+        AutorModel autorModel = new AutorModel();
         BeanUtils.copyProperties(autorDTO, autorModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(autorService.save(autorModel));

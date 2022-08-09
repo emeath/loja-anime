@@ -29,7 +29,7 @@ public class GeneroController {
         if (generoService.nomeDoGeneroExiste(generoDTO.getNome())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Genero já cadastrado.");
         }
-        var generoModel = new GeneroModel();
+        GeneroModel generoModel = new GeneroModel();
         BeanUtils.copyProperties(generoDTO, generoModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(generoService.save(generoModel));
     }
@@ -75,7 +75,7 @@ public class GeneroController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero ID: " + id + " não encontrado!");
         }
 
-        var generoModel = new GeneroModel();
+        GeneroModel generoModel = new GeneroModel();
         generoModel.setId(generoModelOptional.get().getId());
         BeanUtils.copyProperties(generoDTO, generoModel);
 
