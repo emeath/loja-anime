@@ -37,7 +37,7 @@ public class GeneroController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getGeneroById(@PathVariable(value="id") Long id) {
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
-        if (generoModelOptional.isEmpty()) {
+        if (!generoModelOptional.isPresent()) {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero de id: " + id + " não encontrado.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(generoModelOptional.get());
@@ -46,7 +46,7 @@ public class GeneroController {
     @GetMapping("/autores/{id}")
     public ResponseEntity<Object> getGenerosByAutorId(@PathVariable(value = "id") Long id) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
-        if (autorModelOptional.isEmpty()){
+        if (!autorModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado Autor de id: " + id);
         }
         List<GeneroModel> generos = generoService.findByAutorId(autorModelOptional.get().getId());
@@ -61,7 +61,7 @@ public class GeneroController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteGeneroById(@PathVariable(value = "id") Long id) {
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
-        if (generoModelOptional.isEmpty()){
+        if (!generoModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero id: " + id + " não encontrado!");
         }
         generoService.deletarPorId(id);
@@ -71,7 +71,7 @@ public class GeneroController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateGenero(@PathVariable(value = "id") Long id, @RequestBody GeneroDTO generoDTO){
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
-        if (generoModelOptional.isEmpty()) {
+        if (!generoModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero ID: " + id + " não encontrado!");
         }
 

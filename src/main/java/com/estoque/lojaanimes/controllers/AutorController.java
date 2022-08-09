@@ -31,7 +31,7 @@ public class AutorController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getAutorById(@PathVariable Long id){
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
-        if (autorModelOptional.isEmpty()){
+        if (!autorModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor id: " + id + " não encontrado!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(autorService.findById(id));
@@ -52,7 +52,7 @@ public class AutorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAutorById(@PathVariable(value = "id") Long id) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
-        if (autorModelOptional.isEmpty()){
+        if (!autorModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não encontrado!");
         }
         autorService.deleteById(id);
@@ -62,7 +62,7 @@ public class AutorController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAutor(@PathVariable(value = "id") Long id, @RequestBody AutorDTO autorDTO) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
-        if (autorModelOptional.isEmpty()) {
+        if (!autorModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não encontrado!");
         }
         AutorModel autorModel = new AutorModel();
