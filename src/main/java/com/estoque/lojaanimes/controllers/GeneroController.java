@@ -27,7 +27,7 @@ public class GeneroController {
     @PostMapping
     public ResponseEntity<Object> saveGenero(@RequestBody @Valid GeneroDTO generoDTO) {
         if (generoService.nomeDoGeneroExiste(generoDTO.getNome())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Genero já cadastrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         GeneroModel generoModel = new GeneroModel();
         BeanUtils.copyProperties(generoDTO, generoModel);
@@ -38,7 +38,7 @@ public class GeneroController {
     public ResponseEntity<Object> getGeneroById(@PathVariable(value="id") Long id) {
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
         if (!generoModelOptional.isPresent()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero de id: " + id + " não encontrado.");
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(generoModelOptional.get());
     }
@@ -47,7 +47,7 @@ public class GeneroController {
     public ResponseEntity<Object> getGenerosByAutorId(@PathVariable(value = "id") Long id) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
         if (!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado Autor de id: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         List<GeneroModel> generos = generoService.findByAutorId(autorModelOptional.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body(generos);
@@ -62,17 +62,17 @@ public class GeneroController {
     public ResponseEntity<Object> deleteGeneroById(@PathVariable(value = "id") Long id) {
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
         if (!generoModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero id: " + id + " não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         generoService.deletarPorId(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Genero id: " + id + " deletado!");
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateGenero(@PathVariable(value = "id") Long id, @RequestBody GeneroDTO generoDTO){
         Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(id);
         if (!generoModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Genero ID: " + id + " não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         GeneroModel generoModel = new GeneroModel();
