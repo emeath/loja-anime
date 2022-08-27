@@ -1,14 +1,18 @@
 package com.estoque.lojaanimes.services;
 
-import com.estoque.lojaanimes.models.AnimeModel;
-import com.estoque.lojaanimes.repositories.AnimeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import com.estoque.lojaanimes.models.AnimeModel;
+import com.estoque.lojaanimes.repositories.AnimeRepository;
 
 @Service
 public class AnimeService {
@@ -20,8 +24,8 @@ public class AnimeService {
         return animeRepository.existsByNome(nome);
     }
 
-    public List<AnimeModel> findAll(){
-        return animeRepository.findAll();
+    public Page<AnimeModel> findAll(PageRequest pageRequest){
+        return animeRepository.findAll(pageRequest);
     }
 
     public Optional<AnimeModel> findById(Long id) {
