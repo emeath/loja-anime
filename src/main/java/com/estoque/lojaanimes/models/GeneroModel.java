@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "generos")
-public class GeneroModel implements Serializable {
+public class GeneroModel {
 
     public GeneroModel() {
     }

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "animes")
-public class AnimeModel implements Serializable {
+public class AnimeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animes_seq_gen")

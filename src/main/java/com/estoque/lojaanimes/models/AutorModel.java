@@ -9,9 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "autores")
-public class AutorModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class AutorModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "autores_seq_gen")
