@@ -15,4 +15,6 @@ public interface AnimeRepository extends JpaRepository<AnimeModel, Long> {
 
     @Query("SELECT genani FROM GeneroModel g JOIN g.generoAnimes genani WHERE g.nome = :nomeGenero")
     public Set<AnimeModel> animesPorGenero(String nomeGenero);
+
+	public List<AnimeModel> findByNomeContaining(String nomeAnime);
 }

@@ -90,6 +90,19 @@ public class AnimeController {
     	PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return ResponseEntity.status(HttpStatus.OK).body(animeService.findAll(pageRequest));
     }
+    
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Page<AnimeModel>> getAllAnimesByName(
+    		@RequestParam(value="page", defaultValue="0") Integer page,
+    		@RequestParam(value="linesPerPage", defaultValue="5") Integer linesPerPage,
+    		@RequestParam(value="direction", defaultValue="ASC") String direction,
+    		@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
+    		@PathVariable(value="nome") String nomeAnime
+    		) {    
+    	PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+    	
+    	return ResponseEntity.status(HttpStatus.OK).body(animeService.findByNomeContaining(pageRequest, nomeAnime));
+    }
 
     @GetMapping("/autores/{id}")
     public ResponseEntity<Object> getAllAnimesByAutorId(@PathVariable(value = "id") Long id) {

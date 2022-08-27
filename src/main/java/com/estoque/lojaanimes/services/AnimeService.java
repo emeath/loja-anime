@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +50,10 @@ public class AnimeService {
     public Set<AnimeModel> animesPorGenero(String nomeGenero) {
         return animeRepository.animesPorGenero(nomeGenero);
     }
+
+	public Page<AnimeModel> findByNomeContaining(PageRequest pageRequest, String nomeAnime) {
+		List<AnimeModel> animeModelList = animeRepository.findByNomeContaining(nomeAnime);
+		Page<AnimeModel> page = new PageImpl<>(animeModelList, pageRequest, animeModelList.size());
+		return page;
+	}
 }
