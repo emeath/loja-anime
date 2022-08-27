@@ -46,14 +46,14 @@ public class AnimeController {
     @PostMapping
     public ResponseEntity<Object> saveAnime(@RequestBody @Valid AnimeDTO animeDTO) {
         if (animeService.nomeDoGeneroExiste(animeDTO.getNome())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Anime: " + animeDTO.getNome() + " já cadastrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         AnimeModel animeModel = new AnimeModel();
         BeanUtils.copyProperties(animeDTO, animeModel);
 
         Optional<AutorModel> autorModelOptional = autorService.findById(animeDTO.getIdAutor());
         if(!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id do autor inválido!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         animeModel.setAutor(autorModelOptional.get());
 
@@ -62,7 +62,7 @@ public class AnimeController {
         for (Long idGenero : animeDTO.getIdGenerosAnime()) {
             Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(idGenero);
             if(!generoModelOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id Genero: " + idGenero + " inválido. Requisição rejeitada.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
             generos.add(generoModelOptional.get());
         }
@@ -75,7 +75,7 @@ public class AnimeController {
     public ResponseEntity<Object> getAnimeById(@PathVariable(value="id") Long id) {
         Optional<AnimeModel> animeModelOptional = animeService.findById(id);
         if (!animeModelOptional.isPresent()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Anime de id: " + id + " não encontrado.");
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(animeModelOptional.get());
     }
@@ -109,7 +109,7 @@ public class AnimeController {
         // Autor existe?
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
         if (!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não existe!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         AutorModel autorModel = new AutorModel();
         autorModel.setId(autorModelOptional.get().getId());
@@ -123,7 +123,7 @@ public class AnimeController {
     public ResponseEntity<Object> getAllAnimesByGeneroNome(@PathVariable(value = "nomeGenero") String nomeDoGenero) {
         Optional<GeneroModel> generoModelOptional = generoService.findByNome(nomeDoGenero);
         if(!generoModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID não encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
          Set<AnimeModel> animes = animeService.animesPorGenero(generoModelOptional.get().getNome());
         return ResponseEntity.status(HttpStatus.OK).body(animes);
@@ -133,17 +133,17 @@ public class AnimeController {
     public ResponseEntity<Object> deleteById(@PathVariable(value="id") Long id) {
         Optional<AnimeModel> animeModelOptional = animeService.findById(id);
         if (!animeModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Anime (id=" + id + ") não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         animeService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Anime (id=" + id + ") deletado!");
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateById(@PathVariable(value = "id") Long id, @RequestBody @Valid AnimeDTO animeDTO) {
         Optional<AnimeModel> animeModelOptional = animeService.findById(id);
         if (!animeModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Anime (id=" + id + ") não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         AnimeModel animeModel = new AnimeModel();
         animeModel.setId(animeModelOptional.get().getId());
@@ -153,7 +153,7 @@ public class AnimeController {
         for (Long idGenero : animeDTO.getIdGenerosAnime()) {
             Optional<GeneroModel> generoModelOptional = generoService.buscaPorId(idGenero);
             if (!generoModelOptional.isPresent()){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id Genero: " + idGenero + " inválido. Requisição rejeitada.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
             generos.add(generoModelOptional.get());
         }
@@ -161,7 +161,7 @@ public class AnimeController {
 
         Optional<AutorModel> autorModelOptional = autorService.findById(animeDTO.getIdAutor());
         if (!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id do autor inválido!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         animeModel.setAutor(autorModelOptional.get());
 
