@@ -32,15 +32,15 @@ public class AutorController {
     public ResponseEntity<Object> getAutorById(@PathVariable Long id){
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
         if (!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor id: " + id + " não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(autorService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(autorModelOptional.get());
     }
 
     @PostMapping
     public ResponseEntity<Object> addAutor(@RequestBody @Valid AutorDTO autorDTO){
         if(autorService.existsByNome(autorDTO.getNome().trim())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Autor já cadastrado!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         AutorModel autorModel = new AutorModel();
         BeanUtils.copyProperties(autorDTO, autorModel);
@@ -53,17 +53,17 @@ public class AutorController {
     public ResponseEntity<Object> deleteAutorById(@PathVariable(value = "id") Long id) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
         if (!autorModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         autorService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Autor ID: " + id + " deletado!");
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAutor(@PathVariable(value = "id") Long id, @RequestBody AutorDTO autorDTO) {
         Optional<AutorModel> autorModelOptional = autorService.findById(id);
         if (!autorModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor ID: " + id + " não encontrado!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         AutorModel autorModel = new AutorModel();
         autorModel.setId(autorModelOptional.get().getId());
